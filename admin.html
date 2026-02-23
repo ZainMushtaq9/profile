@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — ZM Portfolio</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: var(--bg-primary);
+            min-height: 100vh;
+        }
+
+        #adminApp {
+            display: none;
+        }
+
+        .admin-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--accent);
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(20px);
+            z-index: 10001;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .admin-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .admin-toast.error {
+            background: rgba(255, 68, 68, 0.15);
+            border-color: rgba(255, 68, 68, 0.3);
+            color: #ff6b6b;
+        }
+
+        .edit-mode .form-title-text::after {
+            content: ' (Editing)';
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Password Gate -->
+    <div class="admin-overlay" id="authOverlay">
+        <div class="admin-login-box">
+            <div class="card-icon" style="margin: 0 auto 16px;"><i class="fas fa-lock"></i></div>
+            <h2>Admin Access</h2>
+            <p>Enter password to manage projects</p>
+            <input type="password" class="admin-input" id="adminPassword" placeholder="Enter admin password" autofocus>
+            <button class="btn btn-primary" style="width:100%;" onclick="checkPassword()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <p id="authError" style="color:#ff6b6b;font-size:0.82rem;margin-top:12px;display:none;">Incorrect password.
+                Try again.</p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminApp">
+        <header class="admin-header">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">
+                    <i class="fas fa-arrow-left"></i> Back to Site
+                </a>
+                <h1><i class="fas fa-shield-halved" style="color:var(--accent);margin-right:8px;"></i>Admin Panel</h1>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </header>
+
+        <div class="admin-body">
+            <!-- Add / Edit Project Form -->
+            <div class="admin-form" id="projectForm">
+                <h2><i class="fas fa-plus-circle" style="color:var(--accent);margin-right:8px;"></i><span
+                        class="form-title-text">Add New Project</span></h2>
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label>Project Title *</label>
+                    <input type="text" class="admin-input" id="projTitle" placeholder="e.g. AI Healthcare Platform">
+                </div>
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea class="admin-input" id="projDesc"
+                        placeholder="Brief description of the project..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tech Stack (comma separated)</label>
+                    <input type="text" class="admin-input" id="projTags" placeholder="e.g. Python, Flask, TensorFlow">
+                </div>
+                <div class="form-group">
+                    <label>GitHub URL</label>
+                    <input type="url" class="admin-input" id="projGithub" placeholder="https://github.com/...">
+                </div>
+                <div class="form-group">
+                    <label>Live Demo URL</label>
+                    <input type="url" class="admin-input" id="projLive" placeholder="https://...">
+                </div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="saveProject()">
+                        <i class="fas fa-save"></i> Save Project
+                    </button>
+                    <button class="btn btn-outline" id="cancelEditBtn" style="display:none;" onclick="cancelEdit()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projects List -->
+            <div class="admin-projects-list">
+                <h2><i class="fas fa-folder-open" style="color:var(--accent);margin-right:8px;"></i>Your Projects (<span
+                        id="projectCount">0</span>)</h2>
+                <div id="adminProjectsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="admin-toast" id="toast"></div>
+
+    <script>
+        // ---- CONFIG ----
+        const ADMIN_PASSWORD = 'zain2025';
+        const STORAGE_KEY = 'zm_admin_projects';
+
+        // ---- AUTH ----
+        function checkPassword() {
+            const pwd = document.getElementById('adminPassword').value;
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('authOverlay').style.display = 'none';
+                document.getElementById('adminApp').style.display = 'block';
+                sessionStorage.setItem('zm_admin_auth', 'true');
+                renderAdminProjects();
+            } else {
+                document.getElementById('authError').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        // Enter key support
+        document.getElementById('adminPassword').addEventListener('keydown', e => {
+            if (e.key === 'Enter') checkPassword();
+        });
+
+        // Check if already authenticated in this session
+        if (sessionStorage.getItem('zm_admin_auth') === 'true') {
+            document.getElementById('authOverlay').style.display = 'none';
+            document.getElementById('adminApp').style.display = 'block';
+            renderAdminProjects();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('zm_admin_auth');
+            window.location.reload();
+        }
+
+        // ---- PROJECTS CRUD ----
+        function getProjects() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        }
+
+        function saveProjects(projects) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+        }
+
+        function saveProject() {
+            const title = document.getElementById('projTitle').value.trim();
+            const desc = document.getElementById('projDesc').value.trim();
+            const tags = document.getElementById('projTags').value.trim();
+            const github = document.getElementById('projGithub').value.trim();
+            const live = document.getElementById('projLive').value.trim();
+            const editId = document.getElementById('editId').value;
+
+            if (!title || !desc) {
+                showToast('Title and Description are required!', true);
+                return;
+            }
+
+            const projects = getProjects();
+            const project = {
+                id: editId || 'admin-' + Date.now(),
+                title,
+                description: desc,
+                tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+                github,
+                live,
+                createdAt: editId ? (projects.find(p => p.id === editId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (editId) {
+                const idx = projects.findIndex(p => p.id === editId);
+                if (idx !== -1) projects[idx] = project;
+                showToast('Project updated successfully!');
+            } else {
+                projects.unshift(project);
+                showToast('Project added successfully!');
+            }
+
+            saveProjects(projects);
+            clearForm();
+            renderAdminProjects();
+        }
+
+        function editProject(id) {
+            const projects = getProjects();
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            document.getElementById('editId').value = id;
+            document.getElementById('projTitle').value = project.title;
+            document.getElementById('projDesc').value = project.description;
+            document.getElementById('projTags').value = (project.tags || []).join(', ');
+            document.getElementById('projGithub').value = project.github || '';
+            document.getElementById('projLive').value = project.live || '';
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+            document.getElementById('projectForm').classList.add('edit-mode');
+            document.getElementById('projectForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteProject(id) {
+            if (!confirm('Are you sure you want to delete this project?')) return;
+            const projects = getProjects().filter(p => p.id !== id);
+            saveProjects(projects);
+            showToast('Project deleted.');
+            renderAdminProjects();
+        }
+
+        function cancelEdit() {
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('editId').value = '';
+            document.getElementById('projTitle').value = '';
+            document.getElementById('projDesc').value = '';
+            document.getElementById('projTags').value = '';
+            document.getElementById('projGithub').value = '';
+            document.getElementById('projLive').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            document.getElementById('projectForm').classList.remove('edit-mode');
+        }
+
+        function renderAdminProjects() {
+            const projects = getProjects();
+            const list = document.getElementById('adminProjectsList');
+            const count = document.getElementById('projectCount');
+            count.textContent = projects.length;
+
+            if (projects.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No projects added yet. Use the form above to add your first project!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = projects.map(p => `
+                <div class="admin-project-item">
+                    <div class="admin-project-info">
+                        <h3>${escapeHtml(p.title)}</h3>
+                        <p>${escapeHtml(p.description)}</p>
+                        <div class="project-tags">
+                            ${(p.tags || []).map(t => `<span class="project-tag">${escapeHtml(t)}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="admin-project-actions">
+                        <button class="btn btn-outline btn-sm" onclick="editProject('${p.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ---- UTILS ----
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'admin-toast show' + (isError ? ' error' : '');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+</body>
+
+</html>
