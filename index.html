@@ -31,7 +31,7 @@
   }
   #print-btn:hover { background: #000; }
 
-  /* ── PAGE ── */
+  /* PAGE */
   .page {
     width: 794px;
     min-height: 1123px;
@@ -41,25 +41,33 @@
     grid-template-rows: auto 1fr;
   }
 
-  /* ── TOP HEADER ── */
+  /* TOP HEADER */
   .cv-top {
     display: grid;
     grid-template-columns: 210px 1fr;
-    background: #fff;
+    background: #3a3a3a;
+    min-height: 130px;
   }
 
   /* photo cell */
   .photo-cell {
-    background: #3a3a3a;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    padding: 0;
-    overflow: hidden;
+    padding: 16px 14px;
+    background: #3a3a3a;
   }
-  .photo-cell img {
+  .photo-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #888;
+    flex-shrink: 0;
+  }
+  .photo-wrapper img {
     width: 100%;
-    height: 140px;
+    height: 100%;
     object-fit: cover;
     object-position: center top;
     display: block;
@@ -68,7 +76,6 @@
 
   /* name cell */
   .name-cell {
-    background: #3a3a3a;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -88,7 +95,7 @@
     letter-spacing: 0.03em;
   }
 
-  /* ── BODY COLUMNS ── */
+  /* BODY COLUMNS */
   .cv-body {
     display: grid;
     grid-template-columns: 210px 1fr;
@@ -133,34 +140,6 @@
     fill: #555;
   }
   .contact-list li .text { word-break: break-all; }
-
-  /* education */
-  .edu-item { margin-bottom: 12px; }
-  .edu-item:last-child { margin-bottom: 0; }
-  .edu-degree {
-    font-size: 10px;
-    font-weight: 700;
-    color: #111;
-    line-height: 1.35;
-  }
-  .edu-inst {
-    font-size: 9.5px;
-    color: #555;
-    margin-top: 2px;
-    line-height: 1.35;
-  }
-  .edu-year {
-    font-size: 9px;
-    color: #888;
-    margin-top: 2px;
-  }
-  .edu-detail {
-    font-size: 9.5px;
-    color: #444;
-    margin-top: 3px;
-    line-height: 1.45;
-  }
-  .edu-detail strong { color: #111; }
 
   /* skills */
   .skills-list { list-style: none; }
@@ -212,6 +191,35 @@
     line-height: 1.65;
   }
 
+  /* education (right side) */
+  .edu-item { margin-bottom: 13px; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-degree {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.35;
+  }
+  .edu-inst {
+    font-size: 10.5px;
+    color: #444;
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+  .edu-year {
+    font-size: 9.5px;
+    color: #888;
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .edu-detail {
+    font-size: 10.5px;
+    color: #333;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .edu-detail strong { color: #111; }
+
   /* work */
   .job { margin-bottom: 14px; }
   .job:last-child { margin-bottom: 0; }
@@ -260,29 +268,27 @@
     font-style: italic;
   }
 
-  /* ── PRINT ── */
+  /* PRINT */
   @media print {
     @page { size: A4; margin: 0; }
     body { background: #fff; }
     #print-btn { display: none !important; }
     .page { width: 100%; margin: 0; }
     .sidebar { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #f0f0f0 !important; }
-    .photo-cell, .name-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #3a3a3a !important; }
+    .cv-top { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #3a3a3a !important; }
+    .photo-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #3a3a3a !important; }
   }
 
-  /* ── RESPONSIVE ── */
+  /* RESPONSIVE */
   @media (max-width: 860px) {
     body { background: #fff; }
     .page { width: 100%; margin: 0; }
   }
   @media (max-width: 600px) {
-    .cv-top { grid-template-columns: 140px 1fr; }
-    .cv-body { grid-template-columns: 140px 1fr; }
-    .page { grid-template-columns: 1fr; }
-    .cv-top { grid-template-columns: 1fr; }
+    .cv-top { grid-template-columns: 1fr; text-align: center; }
+    .photo-cell { padding: 20px 14px 10px; }
     .cv-body { grid-template-columns: 1fr; }
-    .photo-cell img { height: 100px; }
-    .main { padding: 16px 14px; border-left: none; border-top: 1px solid #ddd; }
+    .main { border-left: none; border-top: 1px solid #ddd; padding: 16px 14px; }
     #print-btn { top: 8px; right: 8px; padding: 6px 10px; font-size: 11px; }
   }
 </style>
@@ -296,7 +302,9 @@
   <!-- TOP HEADER -->
   <div class="cv-top">
     <div class="photo-cell">
-      <img src="profile.jpg" alt="Profile Photo">
+      <div class="photo-wrapper">
+        <img src="profile.jpg" alt="Profile Photo">
+      </div>
     </div>
     <div class="name-cell">
       <h1 class="cv-name">Muhammad Zain Mushtaq</h1>
@@ -315,40 +323,22 @@
         <p class="side-heading">Contact Details</p>
         <ul class="contact-list">
           <li>
-            <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
             <span class="text">zainmushtaq5439@gmail.com</span>
           </li>
           <li>
-            <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
             <span class="text">03069750936</span>
           </li>
           <li>
-            <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
             <span class="text">Mouza Jungle Rang Ali Wala, Post Office Lar, Multan, Pakistan</span>
           </li>
           <li>
-            <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
             <span class="text">linkedin.com/in/muhammad-zain-mushtaq-ab54871b2</span>
           </li>
         </ul>
-      </div>
-
-      <!-- Education -->
-      <div class="side-section">
-        <p class="side-heading">Education</p>
-
-        <div class="edu-item">
-          <p class="edu-degree">Bachelor of Science in Information Technology (BSIT)</p>
-          <p class="edu-inst">Bahauddin Zakariya University, Multan<br>(via Legend College Multan)</p>
-          <p class="edu-year">2020 – 2025</p>
-          <p class="edu-detail">CGPA: <strong>3.50 / 4.00</strong><br>Percentage: <strong>87%</strong> &nbsp;|&nbsp; Grade: <strong>A+</strong></p>
-          <p class="edu-detail" style="margin-top:4px;"><strong>FYP:</strong> Multi-Disease Detection Using AI and Flask</p>
-        </div>
-
-        <div class="edu-item">
-          <p class="edu-degree">Intermediate in Computer Science (ICS)</p>
-          <p class="edu-inst">City College of Science &amp; Commerce, Multan</p>
-        </div>
       </div>
 
       <!-- Skills -->
@@ -395,6 +385,24 @@
         <p class="summary-text">Detail-oriented BS Information Technology graduate with strong skills in computer operations, inventory management, data handling, and business support functions.</p>
       </div>
 
+      <!-- Education (moved here) -->
+      <div class="main-section">
+        <p class="main-heading">Education</p>
+
+        <div class="edu-item">
+          <p class="edu-degree">Bachelor of Science in Information Technology (BSIT)</p>
+          <p class="edu-inst">Bahauddin Zakariya University, Multan (via Legend College Multan)</p>
+          <p class="edu-year">2020 – 2025</p>
+          <p class="edu-detail">CGPA: <strong>3.50 / 4.00</strong> &nbsp;|&nbsp; Percentage: <strong>87%</strong> &nbsp;|&nbsp; Grade: <strong>A+</strong></p>
+          <p class="edu-detail" style="margin-top:4px;"><strong>Final Year Project:</strong> Multi-Disease Detection Using Artificial Intelligence and Flask</p>
+        </div>
+
+        <div class="edu-item">
+          <p class="edu-degree">Intermediate in Computer Science (ICS)</p>
+          <p class="edu-inst">City College of Science &amp; Commerce, Multan</p>
+        </div>
+      </div>
+
       <!-- Work Experience -->
       <div class="main-section">
         <p class="main-heading">Work Experience</p>
@@ -426,7 +434,6 @@
       <!-- Certifications -->
       <div class="main-section">
         <p class="main-heading">Certifications</p>
-
         <div class="cert-item">
           <p class="cert-name">Programming Essentials in Python (PCAP)</p>
           <p class="cert-org">Cisco Networking Academy</p>
@@ -448,9 +455,8 @@
       </div>
 
     </main>
-  </div><!-- /cv-body -->
-</div><!-- /page -->
+  </div>
+</div>
 
 </body>
- </html>
- 
+</html>
