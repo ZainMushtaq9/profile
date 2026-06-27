@@ -1,337 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Muhammad Zain Mushtaq – CV</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Zain Mushtaq – CV</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      background: #e8e8e8;
-      color: #111;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+  body {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #e8e8e8;
+    line-height: 1.5;
+  }
 
-    /* Print Button */
-    #print-btn {
-      position: fixed;
-      top: 18px;
-      right: 22px;
-      z-index: 9999;
-      background: #222;
-      color: #fff;
-      border: none;
-      padding: 9px 20px;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-      letter-spacing: 0.5px;
-    }
-    #print-btn:hover { background: #444; }
+  a { color: inherit; text-decoration: none; }
 
-    /* Page wrapper */
+  /* Print button */
+  #print-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 999;
+    background: #2c2c2c;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+  }
+  #print-btn:hover { background: #000; }
+
+  /* Page wrapper */
+  .page {
+    width: 794px;
+    min-height: 1123px;
+    margin: 32px auto;
+    background: #fff;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .sidebar {
+    background: #2e2e2e;
+    color: #e0e0e0;
+    padding: 0;
+  }
+
+  .sidebar-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #444;
+  }
+  .sidebar-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+  }
+
+  .sidebar-section {
+    padding: 18px 18px 0 18px;
+  }
+  .sidebar-section:last-child { padding-bottom: 24px; }
+
+  .sidebar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    border-bottom: 1px solid #555;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+  }
+
+  /* Contact */
+  .contact-list { list-style: none; }
+  .contact-list li {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    color: #ccc;
+    margin-bottom: 7px;
+    word-break: break-all;
+  }
+  .contact-list li span.label {
+    display: block;
+    font-size: 9px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1px;
+  }
+
+  /* Education sidebar */
+  .edu-item { margin-bottom: 12px; }
+  .edu-item .degree {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #eee;
+    line-height: 1.3;
+  }
+  .edu-item .institution {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 2px;
+  }
+  .edu-item .year {
+    font-family: 'Arial', sans-serif;
+    font-size: 9.5px;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  /* Skills */
+  .skills-list { list-style: none; }
+  .skills-list li {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    color: #ccc;
+    padding: 3px 0;
+    border-bottom: 1px solid #3d3d3d;
+  }
+  .skills-list li:last-child { border-bottom: none; }
+
+  /* Languages */
+  .lang-item {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    color: #ccc;
+    margin-bottom: 5px;
+  }
+  .lang-item span.level {
+    display: block;
+    font-size: 9.5px;
+    color: #888;
+  }
+
+  /* ── RIGHT MAIN ── */
+  .main {
+    padding: 32px 30px 32px 28px;
+  }
+
+  /* Header name block */
+  .cv-header { margin-bottom: 20px; }
+  .cv-name {
+    font-family: 'Arial', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+  .cv-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: #666;
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Section */
+  .section { margin-bottom: 18px; }
+
+  .section-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #333;
+    border-bottom: 1.5px solid #333;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+  }
+
+  /* Summary */
+  .summary-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 11.5px;
+    color: #333;
+    line-height: 1.6;
+  }
+
+  /* Work experience */
+  .job { margin-bottom: 14px; }
+  .job:last-child { margin-bottom: 0; }
+
+  .job-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #111;
+  }
+  .job-company {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #444;
+    margin-top: 1px;
+  }
+  .job-period {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    color: #888;
+    font-style: italic;
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+  .job-duties {
+    padding-left: 14px;
+    margin: 0;
+  }
+  .job-duties li {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 3px;
+    line-height: 1.5;
+  }
+
+  /* Education main */
+  .edu-main-item { margin-bottom: 12px; }
+  .edu-main-item:last-child { margin-bottom: 0; }
+  .edu-main-degree {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.3;
+  }
+  .edu-main-inst {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #444;
+    margin-top: 1px;
+  }
+  .edu-main-year {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    color: #888;
+    font-style: italic;
+    margin-top: 1px;
+    margin-bottom: 4px;
+  }
+  .edu-main-detail {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #333;
+    line-height: 1.5;
+  }
+  .edu-main-detail strong { color: #111; }
+
+  /* Certifications */
+  .cert-item { margin-bottom: 9px; }
+  .cert-item:last-child { margin-bottom: 0; }
+  .cert-name {
+    font-family: 'Arial', sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #111;
+  }
+  .cert-org {
+    font-family: 'Arial', sans-serif;
+    font-size: 10.5px;
+    color: #666;
+    margin-top: 1px;
+  }
+
+  /* References */
+  .ref-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    @page { size: A4; margin: 0; }
+
+    body { background: #fff; }
+
+    #print-btn { display: none !important; }
+
     .page {
-      width: 210mm;
-      min-height: 297mm;
-      margin: 30px auto;
-      background: #fff;
-      display: flex;
-      flex-direction: row;
+      width: 100%;
+      margin: 0;
+      box-shadow: none;
     }
 
-    /* ── LEFT SIDEBAR ── */
-    .sidebar {
-      width: 68mm;
-      min-width: 68mm;
-      background: #2c2c2c;
-      color: #e8e8e8;
-      padding: 28px 18px 28px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+    .sidebar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    body { background: #fff; }
+    .page {
+      width: 100%;
+      margin: 0;
+      grid-template-columns: 180px 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page {
+      grid-template-columns: 1fr;
+    }
     .sidebar-photo {
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
+      aspect-ratio: unset;
       border-radius: 50%;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto 16px auto;
-      border: 3px solid #888;
-      background: #555;
+      margin: 24px auto 0;
     }
-
-    .sidebar-name {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 3px;
-      letter-spacing: 0.3px;
-    }
-
-    .sidebar-title {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      color: #aaa;
-      text-align: center;
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
-    }
-
-    .sidebar-section {
-      margin-bottom: 18px;
-    }
-
-    .sidebar-section-title {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #bbb;
-      border-bottom: 1px solid #555;
-      padding-bottom: 4px;
-      margin-bottom: 10px;
-    }
-
-    .contact-item {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10.5px;
-      color: #ccc;
-      margin-bottom: 7px;
-      word-break: break-word;
-    }
-
-    .contact-label {
-      display: block;
-      font-size: 9px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-      margin-bottom: 1px;
-    }
-
-    .contact-link {
-      color: #ccc;
-      text-decoration: none;
-    }
-
-    .edu-item { margin-bottom: 10px; }
-    .edu-degree {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10.5px;
-      color: #e0e0e0;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-    .edu-school {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10px;
-      color: #aaa;
-      margin-top: 2px;
-    }
-    .edu-year {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 9.5px;
-      color: #888;
-      margin-top: 1px;
-    }
-    .edu-detail {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 9.5px;
-      color: #aaa;
-      margin-top: 2px;
-    }
-
-    .skill-item {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10.5px;
-      color: #ccc;
-      margin-bottom: 4px;
-      padding-left: 10px;
-      position: relative;
-    }
-    .skill-item::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      color: #888;
-    }
-
-    .lang-item {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10.5px;
-      color: #ccc;
-      margin-bottom: 5px;
-    }
-    .lang-level {
-      font-size: 9.5px;
-      color: #888;
-    }
-
-    /* ── MAIN CONTENT ── */
-    .main {
-      flex: 1;
-      padding: 28px 26px 28px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    /* Summary */
-    .section { margin-bottom: 18px; }
-
-    .section-title {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #222;
-      border-bottom: 1.5px solid #222;
-      padding-bottom: 4px;
-      margin-bottom: 9px;
-    }
-
-    .summary-text {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11.5px;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    /* Work Experience */
-    .job { margin-bottom: 13px; }
-
-    .job-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 2px;
-    }
-
-    .job-title {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      color: #111;
-    }
-
-    .job-dates {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10px;
-      color: #666;
-      white-space: nowrap;
-    }
-
-    .job-company {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      color: #444;
-      font-style: italic;
-      margin-bottom: 5px;
-    }
-
-    .job-bullets {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .job-bullets li {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11px;
-      color: #333;
-      padding-left: 14px;
-      position: relative;
-      margin-bottom: 3px;
-      line-height: 1.55;
-    }
-
-    .job-bullets li::before {
-      content: '•';
-      position: absolute;
-      left: 2px;
-      color: #555;
-    }
-
-    /* Certifications */
-    .cert-item { margin-bottom: 9px; }
-    .cert-name {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #111;
-    }
-    .cert-issuer {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 10.5px;
-      color: #555;
-      font-style: italic;
-    }
-
-    /* References */
-    .ref-text {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 11.5px;
-      color: #444;
-      font-style: italic;
-    }
-
-    /* ── PRINT STYLES ── */
-    @media print {
-      @page {
-        size: A4;
-        margin: 0;
-      }
-
-      body {
-        background: #fff;
-      }
-
-      #print-btn { display: none !important; }
-
-      .page {
-        width: 210mm;
-        min-height: 297mm;
-        margin: 0;
-        box-shadow: none;
-      }
-
-      .sidebar {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      .page {
-        width: 100%;
-        flex-direction: column;
-        margin: 0;
-      }
-      .sidebar {
-        width: 100%;
-        min-width: 0;
-      }
-      .main {
-        padding: 20px 16px;
-      }
-      #print-btn {
-        top: 10px;
-        right: 10px;
-        padding: 7px 14px;
-        font-size: 12px;
-      }
-    }
-  </style>
+    .main { padding: 20px 16px; }
+    #print-btn { top: 8px; right: 8px; font-size: 11px; padding: 6px 12px; }
+  }
+</style>
 </head>
 <body>
 
@@ -339,118 +333,109 @@
 
 <div class="page">
 
-  <!-- SIDEBAR -->
+  <!-- ── SIDEBAR ── -->
   <aside class="sidebar">
-
-    <img
-      src="https://raw.githubusercontent.com/USERNAME/REPOSITORY/main/profile.jpg"
-      alt="Profile Photo"
-      class="sidebar-photo"
-      onerror="this.style.background='#555';this.removeAttribute('src')"
-    />
-
-    <div class="sidebar-name">Muhammad Zain Mushtaq</div>
-    <div class="sidebar-title">IT Graduate &amp; Software Developer</div>
+    <div class="sidebar-photo">
+      <img src="profile.jpg" alt="Profile Photo">
+    </div>
 
     <!-- Contact -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Contact Details</div>
-
-      <div class="contact-item">
-        <span class="contact-label">Email</span>
-        zainmushtaq5439@gmail.com
-      </div>
-
-      <div class="contact-item">
-        <span class="contact-label">Phone</span>
-        03069750936
-      </div>
-
-      <div class="contact-item">
-        <span class="contact-label">Address</span>
-        Mouza Jungle Rang Ali Wala,<br>
-        Post Office Lar,<br>
-        Multan, Pakistan
-      </div>
-
-      <div class="contact-item">
-        <span class="contact-label">LinkedIn</span>
-        <a class="contact-link" href="https://www.linkedin.com/in/muhammad-zain-mushtaq-ab54871b2" target="_blank">
-          linkedin.com/in/<br>muhammad-zain-mushtaq
-        </a>
-      </div>
+      <p class="sidebar-heading">Contact Details</p>
+      <ul class="contact-list">
+        <li>
+          <span class="label">Email</span>
+          zainmushtaq5439@gmail.com
+        </li>
+        <li>
+          <span class="label">Phone</span>
+          03069750936
+        </li>
+        <li>
+          <span class="label">Address</span>
+          Mouza Jungle Rang Ali Wala, Post Office Lar, Multan, Pakistan
+        </li>
+        <li>
+          <span class="label">LinkedIn</span>
+          linkedin.com/in/muhammad-zain-mushtaq-ab54871b2
+        </li>
+      </ul>
     </div>
 
-    <!-- Education -->
+    <!-- Education sidebar -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Education</div>
-
+      <p class="sidebar-heading">Education</p>
       <div class="edu-item">
-        <div class="edu-degree">BS Information Technology (BSIT)</div>
-        <div class="edu-school">Bahauddin Zakariya University, Multan<br>(via Legend College Multan)</div>
-        <div class="edu-year">2020 – 2025</div>
-        <div class="edu-detail">CGPA: 3.50 / 4.00 | 87% | A+</div>
+        <p class="degree">BS Information Technology</p>
+        <p class="institution">Bahauddin Zakariya University, Multan</p>
+        <p class="year">2020 – 2025</p>
       </div>
-
       <div class="edu-item">
-        <div class="edu-degree">Intermediate in Computer Science (ICS)</div>
-        <div class="edu-school">City College of Science &amp; Commerce, Multan</div>
+        <p class="degree">Intermediate in Computer Science (ICS)</p>
+        <p class="institution">City College of Science &amp; Commerce, Multan</p>
       </div>
     </div>
 
     <!-- Skills -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Skills</div>
-      <div class="skill-item">Microsoft Excel (Advanced)</div>
-      <div class="skill-item">Microsoft Word</div>
-      <div class="skill-item">Microsoft PowerPoint</div>
-      <div class="skill-item">Data Entry &amp; Management</div>
-      <div class="skill-item">Inventory Management</div>
-      <div class="skill-item">Stock Control</div>
-      <div class="skill-item">ERP Systems</div>
-      <div class="skill-item">MIS Reporting</div>
-      <div class="skill-item">Computer Operations</div>
-      <div class="skill-item">System Support &amp; Troubleshooting</div>
-      <div class="skill-item">Software Installation &amp; Configuration</div>
-      <div class="skill-item">Database Management (MySQL)</div>
-      <div class="skill-item">Documentation &amp; Record Keeping</div>
+      <p class="sidebar-heading">Skills</p>
+      <ul class="skills-list">
+        <li>Microsoft Excel (Advanced)</li>
+        <li>Microsoft Word</li>
+        <li>Microsoft PowerPoint</li>
+        <li>Data Entry &amp; Data Management</li>
+        <li>Inventory Management</li>
+        <li>Stock Control</li>
+        <li>ERP Systems</li>
+        <li>MIS Reporting</li>
+        <li>Computer Operations</li>
+        <li>System Support &amp; Troubleshooting</li>
+        <li>Software Installation &amp; Configuration</li>
+        <li>Database Management (MySQL)</li>
+        <li>Documentation &amp; Record Keeping</li>
+      </ul>
     </div>
 
     <!-- Languages -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Languages</div>
+      <p class="sidebar-heading">Languages</p>
       <div class="lang-item">
-        Urdu <span class="lang-level">– Native</span>
+        Urdu
+        <span class="level">Native</span>
       </div>
       <div class="lang-item">
-        English <span class="lang-level">– Professional Working Proficiency</span>
+        English
+        <span class="level">Professional Working Proficiency</span>
       </div>
     </div>
-
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- ── MAIN ── -->
   <main class="main">
+
+    <!-- Header -->
+    <div class="cv-header">
+      <h1 class="cv-name">Muhammad Zain Mushtaq</h1>
+      <p class="cv-title">BS Information Technology Graduate</p>
+    </div>
 
     <!-- Summary -->
     <div class="section">
-      <div class="section-title">Summary</div>
-      <div class="summary-text">
+      <p class="section-heading">Summary</p>
+      <p class="summary-text">
         Detail-oriented BS Information Technology graduate with strong skills in computer operations, inventory management, data handling, and business support functions.
-      </div>
+      </p>
     </div>
 
     <!-- Work Experience -->
     <div class="section">
-      <div class="section-title">Work Experience</div>
+      <p class="section-heading">Work Experience</p>
 
       <div class="job">
-        <div class="job-header">
-          <div class="job-title">AI &amp; Chatbot Developer</div>
-          <div class="job-dates">March 2025 – August 2025</div>
-        </div>
-        <div class="job-company">ABIT Consulting (Pvt.) Ltd.</div>
-        <ul class="job-bullets">
+        <p class="job-title">AI &amp; Chatbot Developer</p>
+        <p class="job-company">ABIT Consulting (Pvt.) Ltd.</p>
+        <p class="job-period">March 2025 – August 2025</p>
+        <ul class="job-duties">
           <li>Developed AI-powered chatbot solutions.</li>
           <li>Automated business workflows and reporting systems.</li>
           <li>Supported database and system integration activities.</li>
@@ -459,11 +444,10 @@
       </div>
 
       <div class="job">
-        <div class="job-header">
-          <div class="job-title">Freelance Software Developer</div>
-          <div class="job-dates">September 2023 – March 2025</div>
-        </div>
-        <ul class="job-bullets">
+        <p class="job-title">Freelance Software Developer</p>
+        <p class="job-company">Self-Employed</p>
+        <p class="job-period">September 2023 – March 2025</p>
+        <ul class="job-duties">
           <li>Developed software automation solutions.</li>
           <li>Built database-driven applications.</li>
           <li>Performed testing and system maintenance.</li>
@@ -471,46 +455,57 @@
       </div>
     </div>
 
-    <!-- Final Year Project -->
+    <!-- Education Main -->
     <div class="section">
-      <div class="section-title">Final Year Project</div>
-      <div class="job">
-        <div class="job-title" style="font-size:11.5px;">Multi-Disease Detection Using Artificial Intelligence and Flask</div>
-        <div class="summary-text" style="margin-top:4px;">
-          Developed an AI-based web application using Flask and machine learning models for detecting multiple diseases from patient data inputs.
-        </div>
+      <p class="section-heading">Education</p>
+
+      <div class="edu-main-item">
+        <p class="edu-main-degree">Bachelor of Science in Information Technology (BSIT)</p>
+        <p class="edu-main-inst">Bahauddin Zakariya University, Multan (via Legend College Multan)</p>
+        <p class="edu-main-year">2020 – 2025</p>
+        <p class="edu-main-detail">
+          CGPA: <strong>3.50 / 4.00</strong> &nbsp;|&nbsp;
+          Percentage: <strong>87%</strong> &nbsp;|&nbsp;
+          Grade: <strong>A+</strong>
+        </p>
+        <p class="edu-main-detail" style="margin-top:4px;">
+          <strong>Final Year Project:</strong> Multi-Disease Detection Using Artificial Intelligence and Flask
+        </p>
+      </div>
+
+      <div class="edu-main-item">
+        <p class="edu-main-degree">Intermediate in Computer Science (ICS)</p>
+        <p class="edu-main-inst">City College of Science &amp; Commerce, Multan</p>
       </div>
     </div>
 
     <!-- Certifications -->
     <div class="section">
-      <div class="section-title">Certifications</div>
+      <p class="section-heading">Certifications</p>
 
       <div class="cert-item">
-        <div class="cert-name">Programming Essentials in Python (PCAP)</div>
-        <div class="cert-issuer">Cisco Networking Academy</div>
+        <p class="cert-name">Programming Essentials in Python (PCAP)</p>
+        <p class="cert-org">Cisco Networking Academy</p>
       </div>
-
       <div class="cert-item">
-        <div class="cert-name">Advanced Python Programming</div>
-        <div class="cert-issuer">NAVTTC</div>
+        <p class="cert-name">Advanced Python Programming</p>
+        <p class="cert-org">NAVTTC</p>
       </div>
-
       <div class="cert-item">
-        <div class="cert-name">Soft Skills Training Program</div>
-        <div class="cert-issuer">OEC &amp; ICMPD</div>
+        <p class="cert-name">Soft Skills Training Program</p>
+        <p class="cert-org">OEC &amp; ICMPD</p>
       </div>
     </div>
 
     <!-- References -->
     <div class="section">
-      <div class="section-title">References</div>
-      <div class="ref-text">References available upon request.</div>
+      <p class="section-heading">References</p>
+      <p class="ref-text">References available upon request</p>
     </div>
 
   </main>
 </div>
 
 </body>
-          </html>
-          
+  </html>
+  
